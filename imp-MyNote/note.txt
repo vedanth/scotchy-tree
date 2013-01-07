@@ -4,4 +4,6 @@ sudo alternatives --install /usr/bin/java java /usr/java/jdk1.6.0_38/jre/bin/jav
 ### Change symbolic link from oracle jre to open jre 
 sudo alternatives --remove java /usr/java/jdk1.6.0_38/jre/bin/java
 
+Added from git hub
+
 
