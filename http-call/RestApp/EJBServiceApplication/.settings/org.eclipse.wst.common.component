@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="EJBServiceApplication">
+        <wb-resource deploy-path="/" source-path="/EarContent" tag="defaultRootSource"/>
+        <dependent-module archiveName="EJBServices.jar" deploy-path="/" handle="module:/resource/EJBServices/EJBServices">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="EJBServiceRest.war" deploy-path="/" handle="module:/resource/EJBServiceRest/EJBServiceRest">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="resteasy-atom-provider-2.3.2.Final.jar" deploy-path="/lib" handle="module:/classpath/lib/C:/jboss-as-7.1.1.Final/modules/org/jboss/resteasy/resteasy-atom-provider/main/resteasy-atom-provider-2.3.2.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="resteasy-jsapi-2.3.2.Final-jandex.jar" deploy-path="/lib" handle="module:/classpath/lib/C:/jboss-as-7.1.1.Final/modules/org/jboss/resteasy/resteasy-jsapi/main/resteasy-jsapi-2.3.2.Final-jandex.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="resteasy-cdi-2.3.2.Final.jar" deploy-path="/lib" handle="module:/classpath/lib/C:/jboss-as-7.1.1.Final/modules/org/jboss/resteasy/resteasy-cdi/main/resteasy-cdi-2.3.2.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="resteasy-jaxb-provider-2.3.2.Final.jar" deploy-path="/lib" handle="module:/classpath/lib/C:/jboss-as-7.1.1.Final/modules/org/jboss/resteasy/resteasy-jaxb-provider/main/resteasy-jaxb-provider-2.3.2.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="resteasy-yaml-provider-2.3.2.Final.jar" deploy-path="/lib" handle="module:/classpath/lib/C:/jboss-as-7.1.1.Final/modules/org/jboss/resteasy/resteasy-yaml-provider/main/resteasy-yaml-provider-2.3.2.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="resteasy-jettison-provider-2.3.2.Final.jar" deploy-path="/lib" handle="module:/classpath/lib/C:/jboss-as-7.1.1.Final/modules/org/jboss/resteasy/resteasy-jettison-provider/main/resteasy-jettison-provider-2.3.2.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="async-http-servlet-3.0-2.3.2.Final-jandex.jar" deploy-path="/lib" handle="module:/classpath/lib/C:/jboss-as-7.1.1.Final/modules/org/jboss/resteasy/resteasy-jaxrs/main/async-http-servlet-3.0-2.3.2.Final-jandex.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="resteasy-multipart-provider-2.3.2.Final-jandex.jar" deploy-path="/lib" handle="module:/classpath/lib/C:/jboss-as-7.1.1.Final/modules/org/jboss/resteasy/resteasy-multipart-provider/main/resteasy-multipart-provider-2.3.2.Final-jandex.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="resteasy-atom-provider-2.3.2.Final-jandex.jar" deploy-path="/lib" handle="module:/classpath/lib/C:/jboss-as-7.1.1.Final/modules/org/jboss/resteasy/resteasy-atom-provider/main/resteasy-atom-provider-2.3.2.Final-jandex.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="resteasy-jaxb-provider-2.3.2.Final-jandex.jar" deploy-path="/lib" handle="module:/classpath/lib/C:/jboss-as-7.1.1.Final/modules/org/jboss/resteasy/resteasy-jaxb-provider/main/resteasy-jaxb-provider-2.3.2.Final-jandex.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="resteasy-jaxrs-2.3.2.Final-jandex.jar" deploy-path="/lib" handle="module:/classpath/lib/C:/jboss-as-7.1.1.Final/modules/org/jboss/resteasy/resteasy-jaxrs/main/resteasy-jaxrs-2.3.2.Final-jandex.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="async-http-servlet-3.0-2.3.2.Final.jar" deploy-path="/lib" handle="module:/classpath/lib/C:/jboss-as-7.1.1.Final/modules/org/jboss/resteasy/resteasy-jaxrs/main/async-http-servlet-3.0-2.3.2.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="resteasy-jackson-provider-2.3.2.Final.jar" deploy-path="/lib" handle="module:/classpath/lib/C:/jboss-as-7.1.1.Final/modules/org/jboss/resteasy/resteasy-jackson-provider/main/resteasy-jackson-provider-2.3.2.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="resteasy-multipart-provider-2.3.2.Final.jar" deploy-path="/lib" handle="module:/classpath/lib/C:/jboss-as-7.1.1.Final/modules/org/jboss/resteasy/resteasy-multipart-provider/main/resteasy-multipart-provider-2.3.2.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="resteasy-jsapi-2.3.2.Final.jar" deploy-path="/lib" handle="module:/classpath/lib/C:/jboss-as-7.1.1.Final/modules/org/jboss/resteasy/resteasy-jsapi/main/resteasy-jsapi-2.3.2.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="resteasy-jaxrs-2.3.2.Final.jar" deploy-path="/lib" handle="module:/classpath/lib/C:/jboss-as-7.1.1.Final/modules/org/jboss/resteasy/resteasy-jaxrs/main/resteasy-jaxrs-2.3.2.Final.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="resteasy-jackson-provider-2.3.2.Final-jandex.jar" deploy-path="/lib" handle="module:/classpath/lib/C:/jboss-as-7.1.1.Final/modules/org/jboss/resteasy/resteasy-jackson-provider/main/resteasy-jackson-provider-2.3.2.Final-jandex.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="resteasy-jettison-provider-2.3.2.Final-jandex.jar" deploy-path="/lib" handle="module:/classpath/lib/C:/jboss-as-7.1.1.Final/modules/org/jboss/resteasy/resteasy-jettison-provider/main/resteasy-jettison-provider-2.3.2.Final-jandex.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="resteasy-yaml-provider-2.3.2.Final-jandex.jar" deploy-path="/lib" handle="module:/classpath/lib/C:/jboss-as-7.1.1.Final/modules/org/jboss/resteasy/resteasy-yaml-provider/main/resteasy-yaml-provider-2.3.2.Final-jandex.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+    </wb-module>
+</project-modules>

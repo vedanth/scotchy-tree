@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions name="TestInterface" targetNamespace="http://www.treetechnologies.net/pc/services" xmlns:ns1="http://www.treetechnologies.net/pc/services" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.treetechnologies.net/pc/services" xmlns:ns1="http://www.treetechnologies.net/pc/entities" xmlns:tns="http://www.treetechnologies.net/pc/services" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://www.treetechnologies.net/pc/entities"/>
+  <xs:element name="FaultInfo" type="tns:faultInfo"/>
+  <xs:element name="testGet" type="tns:testGet"/>
+  <xs:element name="testGetInjected" type="tns:testGetInjected"/>
+  <xs:element name="testGetInjectedResponse" type="tns:testGetInjectedResponse"/>
+  <xs:element name="testGetResponse" type="tns:testGetResponse"/>
+  <xs:element name="testPut" type="tns:testPut"/>
+  <xs:element name="testPutResponse" type="tns:testPutResponse"/>
+  <xs:complexType name="testPut">
+    <xs:sequence>
+      <xs:element minOccurs="0" ref="ns1:testClass"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="testPutResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" ref="ns1:testClass"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="faultInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="code" type="xs:string"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="testGetInjected">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="testGetInjectedResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" ref="ns1:testClass"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="testGet">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="testGetResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" ref="ns1:testClass"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SecondFault" type="tns:SecondFault"/>
+  <xs:complexType name="SecondFault">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:element name="Fault" nillable="true" type="tns:faultInfo"/>
+</xs:schema>
+<xs:schema targetNamespace="http://www.treetechnologies.net/pc/entities" version="1.0" xmlns:tns="http://www.treetechnologies.net/pc/entities" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:element name="testClass" type="tns:testType"/>
+<xs:complexType name="testType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="data" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="SecondFault">
+    <wsdl:part element="ns1:SecondFault" name="SecondFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="testGet">
+    <wsdl:part element="ns1:testGet" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="testPut">
+    <wsdl:part element="ns1:testPut" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="testGetInjected">
+    <wsdl:part element="ns1:testGetInjected" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="testGetInjectedResponse">
+    <wsdl:part element="ns1:testGetInjectedResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="testGetResponse">
+    <wsdl:part element="ns1:testGetResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="TestFault">
+    <wsdl:part element="ns1:Fault" name="FirstFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="testPutResponse">
+    <wsdl:part element="ns1:testPutResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="TestInterface">
+    <wsdl:operation name="testPut">
+      <wsdl:input message="ns1:testPut" name="testPut">
+    </wsdl:input>
+      <wsdl:output message="ns1:testPutResponse" name="testPutResponse">
+    </wsdl:output>
+      <wsdl:fault message="ns1:SecondFault" name="SecondFault">
+    </wsdl:fault>
+      <wsdl:fault message="ns1:TestFault" name="TestFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="testGetInjected">
+      <wsdl:input message="ns1:testGetInjected" name="testGetInjected">
+    </wsdl:input>
+      <wsdl:output message="ns1:testGetInjectedResponse" name="testGetInjectedResponse">
+    </wsdl:output>
+      <wsdl:fault message="ns1:SecondFault" name="SecondFault">
+    </wsdl:fault>
+      <wsdl:fault message="ns1:TestFault" name="TestFault">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="testGet">
+      <wsdl:input message="ns1:testGet" name="testGet">
+    </wsdl:input>
+      <wsdl:output message="ns1:testGetResponse" name="testGetResponse">
+    </wsdl:output>
+      <wsdl:fault message="ns1:SecondFault" name="SecondFault">
+    </wsdl:fault>
+      <wsdl:fault message="ns1:TestFault" name="TestFault">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

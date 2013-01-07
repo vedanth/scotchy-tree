@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss:ejb-jar xmlns:jboss="http://www.jboss.com/xml/ns/javaee"
+    xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:security="urn:security" version="3.1" impl-version="2.0">
+	<assembly-descriptor xmlns="http://java.sun.com/xml/ns/javaee">
+		<!-- 
+		This is required. Without this bean security does not work.	
+		-->    
+        <security:security xmlns:security="urn:security">
+            <ejb-name>TestService</ejb-name>
+            <security:security-domain>bean-sec-domain</security:security-domain>
+        </security:security>
+    </assembly-descriptor>
+	
+</jboss:ejb-jar>

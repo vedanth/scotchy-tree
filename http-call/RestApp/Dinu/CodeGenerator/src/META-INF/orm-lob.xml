@@ -1,0 +1,42 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?>  -->
+<entity-mappings version="2.0" 
+    xmlns="http://treetechnologies.net/xml/ns/persistence/orm" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://treetechnologies.net/xml/ns/persistence/orm http://treetechnologies.net/xml/ns/persistence/orm ">
+    <package>net.treetechnologies.LineOfBusiness</package>
+    <entity name="LineOfBusiness" class="LineOfBusiness" access="FIELD">
+        <java-attributes type="Long" scope="public"/>
+        <table name="L004_LOB_MASTER" catalog="postgres" schema="JPA" ></table>
+        <attributes>
+            <id name="lineofBusinessId">
+                <java-attributes type="Long" scope="protected">
+                    <getter name="getlineofBusinessId" scope="public"/>
+                    <setter name="setlineofBusinessId" scope="public"/> 
+                </java-attributes>
+                <column name="LOB_ID_N" nullable="false" unique="true"/>
+            </id>
+            <basic name="name" fetch="EAGER" optional="true">
+                <java-attributes type="String" scope="protected">
+                    <getter name="getName" scope="public"/>
+                    <setter name="setName" scope="public"/> 
+                </java-attributes>
+                <column name="NAME_V" nullable="false"/>                
+            </basic>
+            <version name="lastUpdateTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter name="getLastUpdateTime" scope="public"/>
+                </java-attributes>
+                <column name="LAST_UPDATE_TIME_T" nullable="false"/>                
+                <temporal>TIMESTAMP</temporal>                                
+            </version>
+            <many-to-many name="departments" fetch="LAZY" optional="true" mapped-by="linesOfBusiness">
+                <java-attributes type="Department" scope="protected">
+                    <getter name="getDepartment" scope="public"/>
+                    <adder name="addDepartment"/>
+                    <remover name="removeDepartment"/>
+                    <enquirer name="hasDepartment"/> 
+                </java-attributes>
+            </many-to-many>
+        </attributes>
+    </entity>
+</entity-mappings>

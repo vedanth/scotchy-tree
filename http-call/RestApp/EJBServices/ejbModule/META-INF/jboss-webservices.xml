@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webservices xmlns="http://www.jboss.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xsi:schemaLocation="http://www.jboss.com/xml/ns/javaee http://www.jboss.org/j2ee/schema/jboss_webservices_1_0.xsd">
+	    <!-- 
+  	<config-name>Custom WS-Security Endpoint</config-name>
+  	<config-file>META-INF/jaxws-endpoint-config.xml</config-file>
+	     -->
+  	<port-component>
+	    <ejb-name>TestService</ejb-name>
+	    <port-component-name>TestServicePort</port-component-name>
+	    <port-component-uri>/*</port-component-uri>
+	    <auth-method>BASIC</auth-method>
+	     <transport-guarantee>NONE</transport-guarantee>
+	    <secure-wsdl-access>false</secure-wsdl-access>
+  	</port-component>
+</webservices>

@@ -1,0 +1,513 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?>  -->
+<entity-mappings version="2.0" xmlns="http://treetechnologies.net/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://treetechnologies.net/xml/ns/persistence/orm http://treetechnologies.net/xml/ns/persistence/orm ">
+    <package>net.treetechnologies.pc.entities.characteristics</package>
+    <entity class="Characteristic">
+        <table name="ps_char"/>
+        <attributes>
+			<sequence-generator name="ps_char_seq" sequence-name="ps_char_seq" allocation-size="1" initial-value="1"></sequence-generator>
+			<generated-value generator="ps_char_seq" strategy="SEQUENCE"/>
+             <id name="characteristicId">
+				<java-attributes type="Long" scope="protected">
+				    <getter/>
+				    <setter scope="protected"/>
+				</java-attributes>
+                <column name="char_id_n"/>
+            </id>
+            <basic name="canBeOverridden">
+				<java-attributes type="Long" scope="protected">
+				    <getter/>
+				    <setter/>
+				</java-attributes>
+                <column name="can_be_overridden_n"/>
+            </basic>
+            <basic name="derivationRules">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="derivation_rules_n"/>
+            </basic>
+            <basic name="endDate">
+				<java-attributes type="Date" scope="protected">
+				    <getter/>
+				    <setter/>
+				</java-attributes>
+				<temporal>TIMESTAMP</temporal>
+                <column name="end_date_dt" nullable="false"/>
+            </basic>
+            <basic name="extensible">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="extensible_n"/>
+            </basic>
+            <basic name="maxCardinality">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="max_cardinality_n"/>
+            </basic>
+            <basic name="minCardinality">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="min_cardinality_n"/>
+            </basic>
+            <basic name="name">
+				<java-attributes type="String" scope="protected">
+				    <getter/>
+				    <setter/>
+				</java-attributes>
+                <column name="name_v" nullable="false"/>
+            </basic>
+            <basic name="packageOption">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="package_option_n"/>
+            </basic>
+            <basic name="startDate">
+				<java-attributes type="Date" scope="protected">
+				    <getter/>
+				    <setter/>
+				</java-attributes>
+				<temporal>TIMESTAMP</temporal>
+                <column name="start_date_dt" nullable="false"/>
+            </basic>
+            <basic name="unique">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="unique_n"/>
+            </basic>
+            <basic name="versionType">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="version_type_n"/>
+            </basic>
+            <version name="lastUpdatedTime">
+				<java-attributes type="Date" scope="protected">
+				    <getter/>
+				</java-attributes>
+				<temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+            <many-to-one name="status" fetch="EAGER">
+                <java-attributes type="Status" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="status_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="tenant" fetch="EAGER">
+                <java-attributes type="Tenant" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="tenant_id_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="specificationType" fetch="EAGER">
+                <java-attributes type="SpecificationType" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="type_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="valueType" fetch="EAGER">
+                <java-attributes type="ValueType" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="value_type_n" nullable="false"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="CharacteristicRelation">
+        <table name="ps_char_relation"/>
+        <attributes>
+            <sequence-generator name="" sequence-name="" allocation-size="1" initial-value="1"></sequence-generator>
+            <generated-value generator="" strategy="SEQUENCE"/>
+            <id name="relationId">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter scope="protected"/>
+                </java-attributes>
+                <column name="relation_id_n"/>
+            </id>
+            <version name="lastUpdatedTime">
+				<java-attributes type="Date" scope="protected">
+				    <getter/>
+				</java-attributes>
+				<temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+            <many-to-one name="characteristic" fetch="EAGER">
+                <java-attributes type="Characteristic" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="char_id_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="relationType" fetch="EAGER">
+                <java-attributes type="CharacteristicRelationType" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="relation_type_n" nullable="false"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="CharacteristicRelationDetail">
+        <table name="ps_char_relation_details"/>
+        <id-class class="CharacteristicRelationDetailId"/>
+        <detail-class class="CharacteristicRelationDetailAttributes"/>
+        <attributes>
+            <id name="relatedCharacteristic">
+				<java-attributes type="Long" scope="protected">
+				    <getter/>
+				    <setter/>
+				</java-attributes>
+                <column name="related_char_id_n"/>
+            </id>
+            <id name="relationId">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="relation_id_n"/>
+            </id>
+            <basic name="sequence">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="seq_id_n"/>
+            </basic>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+        </attributes>
+    </entity>
+    <entity class="CharacteristicRelationType">
+        <table schema="pc" name="char_relation_type_master"/>
+        <attributes>
+            <id name="relationType">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="relation_type_n"/>
+            </id>
+            <basic name="endDate">
+				<java-attributes type="Date" scope="protected">
+				    <getter/>
+				    <setter/>
+				</java-attributes>
+				<temporal>TIMESTAMP</temporal>
+                <column name="end_date_dt" nullable="false"/>
+            </basic>
+            <basic name="name">
+				<java-attributes type="String" scope="protected">
+				    <getter/>
+				    <setter/>
+				</java-attributes>
+                <column name="name_v" nullable="false"/>
+            </basic>
+            <basic name="relationClass">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="relation_class_v" nullable="false"/>
+            </basic>
+            <basic name="startDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="start_date_dt" nullable="false"/>
+            </basic>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+            <many-to-one name="status" fetch="EAGER">
+                <java-attributes type="Status" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="status_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="tenant" fetch="EAGER">
+                <java-attributes type="Tenant" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="tenant_id_n" nullable="false"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="CharacteristicValue">
+        <table name="ps_char_value"/>
+        <attributes>
+            <sequence-generator name="" sequence-name="" allocation-size="1" initial-value="1"></sequence-generator>
+            <generated-value generator="" strategy="SEQUENCE"/>
+            <id name="characteristicValueId">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter scope="protected"/>
+                </java-attributes>
+                <column name="char_value_id_n"/>
+            </id>
+            <basic name="defaultOption">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="default_option_n"/>
+            </basic>
+            <basic name="endDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="end_date_dt" nullable="false"/>
+            </basic>
+            <basic name="name">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="name_v" nullable="false"/>
+            </basic>
+            <basic name="rangeInterval">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="range_interval_v" length="4000"/>
+            </basic>
+            <basic name="startDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="start_date_dt" nullable="false"/>
+            </basic>
+            <basic name="value">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="value_v" length="4000"/>
+            </basic>
+            <basic name="valueFrom">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="value_from_v" length="4000"/>
+            </basic>
+            <basic name="valueTo">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="value_to_v" length="4000"/>
+            </basic>
+            <basic name="versionType">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="version_type_n"/>
+            </basic>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+            <many-to-one name="characteristic" fetch="EAGER">
+                <java-attributes type="Characteristic" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="char_id_n"/>
+            </many-to-one>
+            <many-to-one name="status" fetch="EAGER">
+                <java-attributes type="Status" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="status_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="unitOfMeasure" fetch="EAGER">
+                <java-attributes type="UnitOfMeasure" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="unit_of_measure_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="valueType" fetch="EAGER">
+                <java-attributes type="ValueType" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="value_type_n" nullable="false"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="CharacteristicValueRelation">
+        <table name="ps_char_value_relation"/>
+        <attributes>
+            <sequence-generator name="" sequence-name="" allocation-size="1" initial-value="1"></sequence-generator>
+            <generated-value generator="" strategy="SEQUENCE"/>
+            <id name="relationId">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter scope="protected"/>
+                </java-attributes>
+                <column name="relation_id_n"/>
+            </id>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+            <many-to-one name="characteristicValue" fetch="EAGER">
+                <java-attributes type="CharacteristicValue" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="char_value_id_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="relationType" fetch="EAGER">
+                <java-attributes type="CharacteristicValueRelationType" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="relation_type_n" nullable="false"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="CharacteristicValueRelationDetails">
+        <table name="ps_char_value_relation_details"/>
+        <id-class class="CharacteristicValueRelationDetailsId"/>
+        <attributes>
+            <id name="relatedCharacteristicValue">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="related_char_value_id_n"/>
+            </id>
+            <id name="relationId">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="relation_id_n"/>
+            </id>
+            <basic name="sequence">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="seq_id_n"/>
+            </basic>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+        </attributes>
+    </entity>
+    <entity class="CharacteristicValueRelationType">
+        <table name="char_value_relation_type_master"/>
+        <attributes>
+            <id name="relationType">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="relation_type_n"/>
+            </id>
+            <basic name="endDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="end_date_dt" nullable="false"/>
+            </basic>
+            <basic name="name">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="name_v" nullable="false"/>
+            </basic>
+            <basic name="relationClass">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="relation_class_v" nullable="false"/>
+            </basic>
+            <basic name="startDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="start_date_dt" nullable="false"/>
+            </basic>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+            <many-to-one name="status" fetch="EAGER">
+                <java-attributes type="Status" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="status_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="tenant" fetch="EAGER">
+                <java-attributes type="Tenant" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="tenant_id_n" nullable="false"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+
+</entity-mappings>
+ 

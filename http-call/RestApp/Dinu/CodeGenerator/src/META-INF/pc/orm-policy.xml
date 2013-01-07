@@ -1,0 +1,289 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?> -->
+<entity-mappings version="2.0" xmlns="http://treetechnologies.net/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://treetechnologies.net/xml/ns/persistence/orm http://treetechnologies.net/xml/ns/persistence/orm ">
+    <package>net.treetechnologies.pc.entities.policy</package>
+    <entity class="Policy">
+        <table name="policy_master"/>
+        <attributes>
+            <sequence-generator name="" sequence-name="" allocation-size="1" initial-value="1"></sequence-generator>
+            <generated-value generator="" strategy="SEQUENCE"/>
+            <id name="policyId">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter scope="protected"/>
+                </java-attributes>
+                <column name="policy_id_n"/>
+            </id>
+            <basic name="endDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="end_date_dt" nullable="false"/>
+            </basic>
+            <basic name="name">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="name_v" nullable="false"/>
+            </basic>
+            <basic name="rule">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="rule_v" column-definition="oid"/>
+            </basic>
+            <basic name="ruleString">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="rule_string_v" length="32000"/>
+            </basic>
+            <basic name="startDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="start_date_dt" nullable="false"/>
+            </basic>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+            <many-to-one name="policyType" fetch="EAGER">
+                <java-attributes type="PolicyType" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="policy_type_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="status" fetch="EAGER">
+                <java-attributes type="Status" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="status_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="template" fetch="EAGER">
+                <java-attributes type="PolicyParamsTemplate" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="template_id_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="tenant" fetch="EAGER">
+                <java-attributes type="Tenant" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="tenant_id_n" nullable="false"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="PolicyParamsRuleTemplate">
+        <table name="policy_params_rule_template"/>
+        <attributes>
+            <sequence-generator name="" sequence-name="" allocation-size="1" initial-value="1"></sequence-generator>
+            <generated-value generator="" strategy="SEQUENCE"/>
+            <id name="ruleTemplateId">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter scope="protected"/>
+                </java-attributes>
+                <column name="rule_template_id_n"/>
+            </id>
+            <basic name="name">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="name_v" nullable="false"/>
+            </basic>
+        </attributes>
+    </entity>
+    <entity class="PolicyParamsTemplate">
+        <table name="policy_params_template_master"/>
+        <attributes>
+            <sequence-generator name="" sequence-name="" allocation-size="1" initial-value="1"></sequence-generator>
+            <generated-value generator="" strategy="SEQUENCE"/>
+            <id name="templateId">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter scope="protected"/>
+                </java-attributes>
+                <column name="template_id_n"/>
+            </id>
+            <basic name="endDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="end_date_dt" nullable="false"/>
+            </basic>
+            <basic name="name">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="name_v" nullable="false"/>
+            </basic>
+            <basic name="startDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="start_date_dt" nullable="false"/>
+            </basic>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+            <many-to-one name="policyType" fetch="EAGER">
+                <java-attributes type="PolicyType" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="policy_type_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="status" fetch="EAGER">
+                <java-attributes type="Status" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="status_n" nullable="false"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="PolicyParamsTemplateDetails">
+        <table name="policy_params_template_details"/>
+        <id-class class="PolicyParamsTemplateDetailsId"/>
+        <attributes>
+            <id name="factField">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="fact_field_id_n"/>
+            </id>
+            <id name="ruleTemplate">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="rule_template_id_n"/>
+            </id>
+            <id name="templateId">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="template_id_n"/>
+            </id>
+        </attributes>
+    </entity>
+    <entity class="PolicyType">
+        <table name="policy_type_master"/>
+        <attributes>
+            <sequence-generator name="" sequence-name="" allocation-size="1" initial-value="1"></sequence-generator>
+            <generated-value generator="" strategy="SEQUENCE"/>
+            <id name="policyType">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter scope="protected"/>
+                </java-attributes>
+                <column name="policy_type_n"/>
+            </id>
+            <basic name="endDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="end_date_dt" nullable="false"/>
+            </basic>
+            <basic name="name">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="name_v" nullable="false"/>
+            </basic>
+            <basic name="startDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="start_date_dt" nullable="false"/>
+            </basic>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+            <many-to-one name="status" fetch="EAGER">
+                <java-attributes type="Status" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="status_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="tenant" fetch="EAGER">
+                <java-attributes type="Tenant" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="tenant_id_n" nullable="false"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="PolicyTypeDetails">
+        <table name="policy_type_details"/>
+        <id-class class="PolicyTypeDetailsId"/>
+        <attributes>
+            <id name="policyType">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="policy_type_n"/>
+            </id>
+            <id name="versionDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="version_date_dt" column-definition="timestamptz"/>
+            </id>
+            <basic name="rules">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="rules_b" column-definition="oid"/>
+            </basic>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+        </attributes>
+    </entity>
+</entity-mappings>

@@ -1,0 +1,334 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?> -->
+<entity-mappings version="2.0" xmlns="http://treetechnologies.net/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://treetechnologies.net/xml/ns/persistence/orm http://treetechnologies.net/xml/ns/persistence/orm ">
+    <package>net.treetechnologies.pc.entities.specification</package>
+    <entity class="Specification">
+        <table name="ps_spec"/>
+        <attributes>
+            <sequence-generator name="" sequence-name="" allocation-size="1" initial-value="1"></sequence-generator>
+            <generated-value generator="" strategy="SEQUENCE"/>
+            <id name="specificationId">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter scope="protected"/>
+                </java-attributes>
+                <column name="spec_id_n"/>
+            </id>
+            <basic name="endDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="end_date_dt" nullable="false"/>
+            </basic>
+            <basic name="name">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="name_v" nullable="false"/>
+            </basic>
+            <basic name="startDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="start_date_dt" nullable="false"/>
+            </basic>
+            <basic name="versionType">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="version_type_n"/>
+            </basic>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+            <many-to-one name="status" fetch="EAGER">
+                <java-attributes type="Status" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="status_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="tenant" fetch="EAGER">
+                <java-attributes type="Tenant" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="tenant_id_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="type" fetch="EAGER">
+                <java-attributes type="SpecificationType" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="type_n" nullable="false"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="SpecificationCharacteristic">
+        <table name="ps_spec_char"/>
+        <id-class class="SpecificationCharacteristicId"/>
+        <attributes>
+            <id name="characteristic">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="char_id_n"/>
+            </id>
+            <id name="specificationId">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="spec_id_n"/>
+            </id>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+        </attributes>
+    </entity>
+    <entity class="SpecificationCharacteristicValue">
+        <table name="ps_spec_char_value"/>
+        <id-class class="SpecificationCharacteristicValueId"/>
+        <attributes>
+            <id name="characteristic">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="char_id_n"/>
+            </id>
+            <id name="characteristicValue">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="char_value_id_n"/>
+            </id>
+            <id name="specificationId">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="spec_id_n"/>
+            </id>
+            <basic name="defaultOption">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="default_option_n"/>
+            </basic>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+        </attributes>
+    </entity>
+    <entity class="SpecificationRelation">
+        <table name="ps_spec_relation"/>
+        <attributes>
+            <sequence-generator name="" sequence-name="" allocation-size="1" initial-value="1"></sequence-generator>
+            <generated-value generator="" strategy="SEQUENCE"/>
+            <id name="relationId">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter scope="protected"/>
+                </java-attributes>
+                <column name="relation_id_n"/>
+            </id>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+            <many-to-one name="relationType" fetch="EAGER">
+                <java-attributes type="SpecificationRelationType" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="relation_type_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="specification" fetch="EAGER">
+                <java-attributes type="Specification" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="spec_id_n" nullable="false"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="SpecificationRelationDetails">
+        <table name="ps_spec_relation_details"/>
+        <id-class class="SpecificationRelationDetailsId"/>
+        <attributes>
+            <id name="relatedSpecification">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="related_spec_id_n"/>
+            </id>
+            <id name="relationId">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="relation_id_n"/>
+            </id>
+            <basic name="sequence">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="seq_id_n"/>
+            </basic>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+        </attributes>
+    </entity>
+    <entity class="SpecificationRelationType">
+        <table name="spec_relation_type_master"/>
+        <attributes>
+            <id name="relationType">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="relation_type_n"/>
+            </id>
+            <basic name="endDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="end_date_dt" nullable="false"/>
+            </basic>
+            <basic name="name">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="name_v" nullable="false"/>
+            </basic>
+            <basic name="relationClass">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="relation_class_v" nullable="false"/>
+            </basic>
+            <basic name="startDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="start_date_dt" nullable="false"/>
+            </basic>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+            <many-to-one name="status" fetch="EAGER">
+                <java-attributes type="Status" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="status_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="tenant" fetch="EAGER">
+                <java-attributes type="Tenant" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="tenant_id_n" nullable="false"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="SpecificationType">
+        <table name="spec_type_master"/>
+        <attributes>
+            <id name="specificationType">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="spec_type_n"/>
+            </id>
+            <basic name="endDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="end_date_dt" nullable="false"/>
+            </basic>
+            <basic name="name">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="name_v" nullable="false"/>
+            </basic>
+            <basic name="startDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="start_date_dt" nullable="false"/>
+            </basic>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+            <many-to-one name="status" fetch="EAGER">
+                <java-attributes type="Status" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="status_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="tenant" fetch="EAGER">
+                <java-attributes type="Tenant" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="tenant_id_n" nullable="false"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    
+</entity-mappings>
+ 

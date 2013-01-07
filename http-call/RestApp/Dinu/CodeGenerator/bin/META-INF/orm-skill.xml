@@ -1,0 +1,44 @@
+<entity-mappings version="2.0" 
+    xmlns="http://treetechnologies.net/xml/ns/persistence/orm" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://treetechnologies.net/xml/ns/persistence/orm http://treetechnologies.net/xml/ns/persistence/orm ">
+    <package>net.treetechnologies.Skill</package>
+    <entity name="Skill" class="Skill" access="FIELD">
+        <java-attributes type="Long" scope="public"/>
+        <table name="L004_SKILL_MASTER" catalog="postgres" schema="JPA" ></table>
+        <attributes>
+            <id name="skillId">
+                <java-attributes type="Long" scope="protected">
+                    <getter name="getSkillId" scope="public"/>
+                    <setter name="setSkillId" scope="public"/> 
+                </java-attributes>
+                <column name="SKILL_ID_N" nullable="false" unique="true"/>
+            </id>
+            <basic name="name" fetch="EAGER" optional="true">
+                <java-attributes type="String" scope="protected">
+                    <getter name="getName" scope="public"/>
+                    <setter name="setName" scope="public"/> 
+                </java-attributes>
+                <column name="NAME_V" nullable="false"/>                
+            </basic>
+            <version name="lastUpdateTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter name="getLastUpdateTime" scope="public"/>
+                </java-attributes>
+                <column name="LAST_UPDATE_TIME_T" nullable="false"/>                
+                <temporal>TIMESTAMP</temporal>                                
+            </version>
+            <many-to-many-ex mapped-by="skill" name="employees" peer="Employee" peer-name="skills">
+                <java-attributes type="EmployeeSkill" scope="protected">
+                    <getter name="getEmployees" scope="public"/>
+                    <detail-getter name="getEmployeeDetails" scope="public"/>
+                    <detail-setter/>
+                    <adder name="addEmployee"/>
+                    <remover name="removeEmployee"/>
+                    <enquirer name="hasEmployee"/> 
+                </java-attributes>
+                <map-key name="employees"/>
+            </many-to-many-ex>
+        </attributes>
+    </entity>
+</entity-mappings>

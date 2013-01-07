@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-web >
+	<!-- 
+	This is not required as role based security is being handled at ejb level. So we can discard jboss-web.xml
+	<security-domain>bean-sec-domain</security-domain>
+ 	-->
+ </jboss-web>

@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions name="TestServiceService" targetNamespace="http://resttest/" 
+					xmlns:ns1="http://www.treetechnologies.net/pc/services" 
+					xmlns:ns2="http://schemas.xmlsoap.org/soap/http" 
+					xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+					xmlns:tns="http://resttest/" 
+					xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+					xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+					xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+        			xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+        			xmlns:wsaws="http://www.w3.org/2005/08/addressing">
+  <wsdl:import location="TestInterface.wsdl" namespace="http://www.treetechnologies.net/pc/services">
+    </wsdl:import>
+  <wsdl:binding name="TestServiceServiceSoapBinding" type="ns1:TestInterface">
+  	<wsp:PolicyReference URI="#SecurityServiceUsernameUnsecureTransportPolicy"/>
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="testPut">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="testPut">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="testPutResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="SecondFault">
+        <soap:fault name="SecondFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="TestFault">
+        <soap:fault name="TestFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="testGetInjected">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="testGetInjected">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="testGetInjectedResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="SecondFault">
+        <soap:fault name="SecondFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="TestFault">
+        <soap:fault name="TestFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="testGet">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="testGet">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="testGetResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="SecondFault">
+        <soap:fault name="SecondFault" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="TestFault">
+        <soap:fault name="TestFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TestServiceService">
+    <wsdl:port binding="tns:TestServiceServiceSoapBinding" name="TestServicePort">
+      <soap:address location="http://localhost:8080/EJBServices/TestService"/>
+    </wsdl:port>
+  </wsdl:service>
+    <wsp:Policy wsu:Id="SecurityServiceUsernameUnsecureTransportPolicy">
+        <wsp:ExactlyOne>
+            <wsp:All>
+                <sp:SupportingTokens xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
+                    <wsp:Policy>
+                        <sp:UsernameToken sp:IncludeToken="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702/IncludeToken/AlwaysToRecipient">
+                            <wsp:Policy>
+                                <sp:WssUsernameToken10/>
+                            </wsp:Policy>
+                        </sp:UsernameToken>
+                    </wsp:Policy>
+                </sp:SupportingTokens>
+            </wsp:All>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
+</wsdl:definitions>

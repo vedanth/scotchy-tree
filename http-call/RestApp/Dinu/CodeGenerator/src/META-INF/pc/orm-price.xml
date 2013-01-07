@@ -1,0 +1,391 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?> -->
+<entity-mappings version="2.0" xmlns="http://treetechnologies.net/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://treetechnologies.net/xml/ns/persistence/orm http://treetechnologies.net/xml/ns/persistence/orm ">
+    <package>net.treetechnologies.pc.entities.price</package>
+    <entity class="Price">
+        <table name="po_price"/>
+        <attributes>
+            <sequence-generator name="" sequence-name="" allocation-size="1" initial-value="1"></sequence-generator>
+            <generated-value generator="" strategy="SEQUENCE"/>
+            <id name="priceId">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter scope="protected"/>
+                </java-attributes>
+                <column name="price_id_n"/>
+            </id>
+            <basic name="endDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="end_date_dt" nullable="false"/>
+            </basic>
+            <basic name="name">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="name_v" nullable="false"/>
+            </basic>
+            <basic name="startDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="start_date_dt" nullable="false"/>
+            </basic>
+            <basic name="versionType">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="version_type_n"/>
+            </basic>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+            <many-to-one name="pricePolicy" fetch="EAGER">
+                <java-attributes type="Policy" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="price_policy_n"/>
+            </many-to-one>
+            <many-to-one name="status" fetch="EAGER">
+                <java-attributes type="Status" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="status_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="tenant" fetch="EAGER">
+                <java-attributes type="Tenant" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="tenant_id_n" nullable="false"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="PriceComponent">
+        <table name="po_price_component"/>
+        <attributes>
+            <sequence-generator name="" sequence-name="" allocation-size="1" initial-value="1"></sequence-generator>
+            <generated-value generator="" strategy="SEQUENCE"/>
+            <id name="priceId">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter scope="protected"/>
+                </java-attributes>
+                <column name="price_id_n"/>
+            </id>
+            <basic name="defaultValue">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="default_value_n"/>
+            </basic>
+            <many-to-one name="currency" fetch="LAZY">
+                <java-attributes type="Currency" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="currency_v"/>
+            </many-to-one>
+            <many-to-one name="priceType" fetch="EAGER">
+                <java-attributes type="PriceType" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="price_type_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="unitOfMeasure" fetch="EAGER">
+                <java-attributes type="UnitOfMeasure" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="unit_of_measure_n" nullable="false"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="PriceEvent">
+        <table name="po_price_event_master"/>
+        <attributes>
+            <sequence-generator name="" sequence-name="" allocation-size="1" initial-value="1"></sequence-generator>
+            <generated-value generator="" strategy="SEQUENCE"/>
+            <id name="eventId">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter scope="protected"/>
+                </java-attributes>
+                <column name="event_id_n"/>
+            </id>
+            <basic name="endDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="end_date_dt" nullable="false"/>
+            </basic>
+            <basic name="name">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="name_v" nullable="false"/>
+            </basic>
+            <basic name="startDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="start_date_dt" nullable="false"/>
+            </basic>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+            <many-to-one name="status" fetch="EAGER">
+                <java-attributes type="Status" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="status_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="tenant" fetch="EAGER">
+                <java-attributes type="Tenant" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="tenant_id_n" nullable="false"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="PriceRelation">
+        <table name="po_price_relation"/>
+        <attributes>
+            <sequence-generator name="" sequence-name="" allocation-size="1" initial-value="1"></sequence-generator>
+            <generated-value generator="" strategy="SEQUENCE"/>
+            <id name="relationId">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter scope="protected"/>
+                </java-attributes>
+                <column name="relation_id_n"/>
+            </id>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+            <many-to-one name="price" fetch="EAGER">
+                <java-attributes type="Price" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="price_id_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="relationType" fetch="EAGER">
+                <java-attributes type="PriceRelationType" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="relation_type_n" nullable="false"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="PriceRelationDetails">
+        <table name="po_price_relation_details"/>
+        <id-class class="PriceRelationDetailsId"/>
+        <attributes>
+            <id name="relatedPrice">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="related_price_id_n"/>
+            </id>
+            <id name="relationId">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="relation_id_n"/>
+            </id>
+            <basic name="sequence">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="seq_id_n"/>
+            </basic>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+        </attributes>
+    </entity>
+    <entity class="PriceRelationType">
+        <table name="price_relation_type_master"/>
+        <attributes>
+            <id name="relationType">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="relation_type_n"/>
+            </id>
+            <basic name="endDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="end_date_dt" nullable="false"/>
+            </basic>
+            <basic name="name">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="name_v" nullable="false"/>
+            </basic>
+            <basic name="relationClass">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="relation_class_v" nullable="false"/>
+            </basic>
+            <basic name="startDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="start_date_dt" nullable="false"/>
+            </basic>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+            <many-to-one name="status" fetch="EAGER">
+                <java-attributes type="Status" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="status_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="tenant" fetch="EAGER">
+                <java-attributes type="Tenant" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="tenant_id_n" nullable="false"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="PriceSpecification">
+        <table name="po_price_spec"/>
+        <id-class class="PriceSpecificationId"/>
+        <attributes>
+            <id name="priceId">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="price_id_n"/>
+            </id>
+            <id name="specification">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="spec_id_n"/>
+            </id>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+        </attributes>
+    </entity>
+    <entity class="PriceType">
+        <table name="price_type_master"/>
+        <attributes>
+            <id name="priceType">
+                <java-attributes type="Long" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="price_type_n"/>
+            </id>
+            <basic name="endDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="end_date_dt" nullable="false"/>
+            </basic>
+            <basic name="name">
+                <java-attributes type="String" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="name_v" nullable="false"/>
+            </basic>
+            <basic name="startDate">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="start_date_dt" nullable="false"/>
+            </basic>
+            <version name="lastUpdatedTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter/>
+                </java-attributes>
+                <temporal>TIMESTAMP</temporal>
+                <column name="last_updated_time_dt" nullable="false"/>
+            </version>
+            <many-to-one name="status" fetch="EAGER">
+                <java-attributes type="Status" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="status_n" nullable="false"/>
+            </many-to-one>
+            <many-to-one name="tenant" fetch="EAGER">
+                <java-attributes type="Tenant" scope="protected">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <join-column name="tenant_id_n" nullable="false"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+</entity-mappings>

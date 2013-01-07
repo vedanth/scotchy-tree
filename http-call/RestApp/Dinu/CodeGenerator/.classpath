@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Freemarker"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Jaxen 1.1.4"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Postgressql"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/OpenJPA 2.2.0"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Hibernate-Search"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

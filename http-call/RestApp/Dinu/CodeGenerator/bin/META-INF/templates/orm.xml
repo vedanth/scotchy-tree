@@ -1,0 +1,239 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?>  -->
+<entity-mappings version="2.0" 
+    xmlns="http://treetechnologies.net/xml/ns/persistence/orm" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://treetechnologies.net/xml/ns/persistence/orm http://treetechnologies.net/xml/ns/persistence/orm ">
+    <package>net.treetechnologies</package>
+    <entity name="Employee" class="Employee" access="FIELD">
+        <!-- 
+        <java-annotations>
+            <java-annotation>@TestAnnotation</java-annotation>
+        </java-annotations>
+         -->
+        <java-attributes type="Long" scope="public"/>
+        <table name="L004_EMPLOYEE_MASTER" catalog="postgres" schema="JPA" ></table>
+        <attributes>
+            <id name="employeeId">
+                <java-attributes type="Long">
+                    <getter/>
+                    <setter/>
+                </java-attributes>
+                <column name="EMPLOYEE_ID_N" nullable="false"/>
+            </id>
+            <basic name="name" fetch="EAGER" optional="true">
+                <java-attributes type="String" scope="protected">
+                    <getter name="getName" scope="public"/>
+                    <setter name="setName" scope="public"/> 
+                </java-attributes>
+                <column name="NAME_V" nullable="false"/>                
+            </basic>
+            <basic name="balance" fetch="EAGER" optional="true">
+                <java-attributes type="Long" scope="protected">
+                    <getter name="getBalance" scope="public"/>
+                    <setter name="setBalance" scope="public"/> 
+                </java-attributes>
+                <column name="BALANCE_N" nullable="false"/>                
+            </basic>
+            <version name="lastUpdateTime">
+                <java-attributes type="Date" scope="protected" >
+                    <getter name="getLastUpdateTime" scope="public"/>
+                </java-attributes>
+                <column name="LAST_UPDATE_TIME_T" nullable="false"/>                
+                <temporal>TIMESTAMP</temporal>                                
+            </version>
+            <many-to-one name="department" fetch="LAZY" optional="false" >
+                <java-attributes type="Department" scope="protected">
+                    <getter name="getDepartment" scope="public"/>
+                    <setter name="setDepartment" scope="public"/> 
+                </java-attributes>
+                <join-column name="DEPARTMENT_ID_N" referenced-column-name="DEPARTMENT_ID_N" nullable="false"/>
+            </many-to-one>
+            <many-to-many-ex mapped-by="employee" name="skills" owning="true" peer="Skill" peer-name="employees">
+                <java-attributes type="EmployeeSkill" scope="protected">
+                    <getter name="getSkills" scope="public"/>
+                    <detail-getter name="getSkillDetails" scope="public"/>
+                    <detail-setter name="setSkillDetails" scope="public"/>
+                    <adder name="addSkill"/>
+                    <remover name="removeSkill"/>
+                    <enquirer name="hasSkill"/> 
+                </java-attributes>
+                <map-key name="skill"/>
+            </many-to-many-ex>
+        </attributes>
+    </entity>
+    <entity name="Department" class="Department" access="FIELD">
+        <java-attributes type="Long" scope="public"/>
+        <table name="L004_DEPARTMENT_MASTER" catalog="postgres" schema="JPA" ></table>
+        <attributes>
+            <id name="departmentId">
+                <java-attributes type="Long" scope="protected">
+                    <getter name="getDepartmentId" scope="public"/>
+                    <setter name="setDepartmentId" scope="public"/> 
+                </java-attributes>
+                <column name="EMPLOYEE_ID_N" nullable="false" unique="true"/>
+            </id>
+            <basic name="name" fetch="EAGER" optional="true">
+                <java-attributes type="String" scope="protected">
+                    <getter name="getName" scope="public"/>
+                    <setter name="setName" scope="public"/> 
+                </java-attributes>
+                <column name="NAME_V" nullable="false"/>                
+            </basic>
+            <version name="lastUpdateTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter name="getLastUpdateTime" scope="public"/>
+                </java-attributes>
+                <column name="LAST_UPDATE_TIME_T" nullable="false"/>                
+                <temporal>TIMESTAMP</temporal>                                
+            </version>
+            <many-to-many name="linesOfBusiness" fetch="LAZY" optional="true" >
+                <java-attributes type="LineOfBusiness" scope="protected">
+                    <getter name="getLinesOfBusiness" scope="public"/>
+                    <adder name="addLineOfBusiness"/>
+                    <remover name="removeLineOfBusiness"/>
+                    <enquirer name="hasLineOfBusiness"/> 
+                </java-attributes>
+                <join-table name="DEPARTMENT_LOBS">
+                    <join-column name="DEPARTMENT_ID_N" referenced-column-name="DEPARTMENT_ID_N"/>
+                    <inverse-join-column name="LOB_ID_N" referenced-column-name="LOB_ID_N"/>
+                </join-table>
+            </many-to-many>
+            <one-to-many name="employees" mapped-by="department" fetch="LAZY" orphan-removal="true">
+                <java-attributes type="Employee" scope="protected">
+                    <getter name="getEmployees" scope="public"/>
+                    <adder name="addEmployee" scope="public"/>
+                    <remover name="removeEmployee" scope="public"/>
+                    <acquirer name="acquireEmployee"/> 
+                    <enquirer name="hasEmployee"/> 
+                </java-attributes>
+            </one-to-many>
+        </attributes>
+    </entity>
+    <entity name="LineOfBusiness" class="LineOfBusiness" access="FIELD">
+        <java-attributes type="Long" scope="public"/>
+        <table name="L004_LOB_MASTER" catalog="postgres" schema="JPA" ></table>
+        <attributes>
+            <id name="lineofBusinessId">
+                <java-attributes type="Long" scope="protected">
+                    <getter name="getlineofBusinessId" scope="public"/>
+                    <setter name="setlineofBusinessId" scope="public"/> 
+                </java-attributes>
+                <column name="LOB_ID_N" nullable="false" unique="true"/>
+            </id>
+            <basic name="name" fetch="EAGER" optional="true">
+                <java-attributes type="String" scope="protected">
+                    <getter name="getName" scope="public"/>
+                    <setter name="setName" scope="public"/> 
+                </java-attributes>
+                <column name="NAME_V" nullable="false"/>                
+            </basic>
+            <version name="lastUpdateTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter name="getLastUpdateTime" scope="public"/>
+                </java-attributes>
+                <column name="LAST_UPDATE_TIME_T" nullable="false"/>                
+                <temporal>TIMESTAMP</temporal>                                
+            </version>
+            <many-to-many name="departments" fetch="LAZY" optional="true" mapped-by="linesOfBusiness">
+                <java-attributes type="Department" scope="protected">
+                    <getter name="getDepartment" scope="public"/>
+                    <adder name="addDepartment"/>
+                    <remover name="removeDepartment"/>
+                    <enquirer name="hasDepartment"/> 
+                </java-attributes>
+            </many-to-many>
+        </attributes>
+    </entity>
+    <entity name="Skill" class="Skill" access="FIELD">
+        <java-attributes type="Long" scope="public"/>
+        <table name="L004_SKILL_MASTER" catalog="postgres" schema="JPA" ></table>
+        <attributes>
+            <id name="skillId">
+                <java-attributes type="Long" scope="protected">
+                    <getter name="getSkillId" scope="public"/>
+                    <setter name="setSkillId" scope="public"/> 
+                </java-attributes>
+                <column name="SKILL_ID_N" nullable="false" unique="true"/>
+            </id>
+            <basic name="name" fetch="EAGER" optional="true">
+                <java-attributes type="String" scope="protected">
+                    <getter name="getName" scope="public"/>
+                    <setter name="setName" scope="public"/> 
+                </java-attributes>
+                <column name="NAME_V" nullable="false"/>                
+            </basic>
+            <version name="lastUpdateTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter name="getLastUpdateTime" scope="public"/>
+                </java-attributes>
+                <column name="LAST_UPDATE_TIME_T" nullable="false"/>                
+                <temporal>TIMESTAMP</temporal>                                
+            </version>
+            <many-to-many-ex mapped-by="skill" name="employees" peer="Employee" peer-name="skills">
+                <java-attributes type="EmployeeSkill" scope="protected">
+                    <getter name="getEmployees" scope="public"/>
+                    <detail-getter name="getEmployeeDetails" scope="public"/>
+                    <detail-setter/>
+                    <adder name="addEmployee"/>
+                    <remover name="removeEmployee"/>
+                    <enquirer name="hasEmployee"/> 
+                </java-attributes>
+                <map-key name="employees"/>
+            </many-to-many-ex>
+        </attributes>
+    </entity>
+    <entity name="EmployeeSkill" class="EmployeeSkill" access="FIELD">
+        <java-attributes type="EmployeeSkillDetail" scope="public"/>
+        <table name="L004_SKILL_MASTER" catalog="postgres" schema="JPA" ></table>
+        <id-class class="EmployeeSkillId">
+            <java-attributes scope="public"/>
+        </id-class>
+        <detail-class class="EmployeeSkillDetail">
+            <java-attributes scope="public"/>
+        </detail-class>
+        <attributes>
+            <id name="employeeId">
+                <java-attributes type="Long" scope="protected">
+                    <getter name="getEmployeeId" scope="public"/>
+                    <setter name="setEmployeeId" scope="public"/> 
+                </java-attributes>
+                <column name="EMPLOYEE_ID_N" nullable="false"/>
+            </id>
+            <id name="skillId">
+                <java-attributes type="Long" scope="protected">
+                    <getter name="getSkillId" scope="public"/>
+                    <setter name="setSkillId" scope="public"/> 
+                </java-attributes>
+                <column name="SKILL_ID_N" nullable="false"/>
+            </id>
+            <basic name="skillLevel" fetch="EAGER" optional="true">
+                <java-attributes type="Long" scope="protected">
+                    <getter name="getSkillLevel" scope="public"/>
+                    <setter name="setSkillLevel" scope="public"/> 
+                </java-attributes>
+                <column name="SKILL_LEVEL_N" nullable="false"/>                
+            </basic>
+            <version name="lastUpdateTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter name="getLastUpdateTime" scope="public"/>
+                </java-attributes>
+                <column name="LAST_UPDATE_TIME_T" nullable="false"/>                
+                <temporal>TIMESTAMP</temporal>                                
+            </version>
+            <many-to-one name="employee" fetch="EAGER" optional="true" >
+                <java-attributes type="Employee" scope="protected" many-to-many-component="true">
+                    <getter name="getEmployee" scope="public"/>
+                    <setter name="setEmployee" scope="public"/> 
+                </java-attributes>
+                <join-column name="EMPLOYEE_ID_N" referenced-column-name="LOB_ID_N" nullable="false" insertable="false" updatable="false"/>
+            </many-to-one>
+            <many-to-one name="skill" fetch="EAGER" optional="true" >
+                <java-attributes type="Skill" scope="protected" many-to-many-component="true">
+                    <getter name="getSkill" scope="public"/>
+                    <setter name="setSkill" scope="public"/> 
+                </java-attributes>
+                <join-column name="EMPLOYEE_ID_N" referenced-column-name="LOB_ID_N" nullable="false" insertable="false" updatable="false"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+</entity-mappings>

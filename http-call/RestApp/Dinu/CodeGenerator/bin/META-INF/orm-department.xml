@@ -1,0 +1,57 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?>  -->
+<entity-mappings version="2.0" 
+    xmlns="http://treetechnologies.net/xml/ns/persistence/orm" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://treetechnologies.net/xml/ns/persistence/orm http://treetechnologies.net/xml/ns/persistence/orm ">
+    <package>net.treetechnologies.Department</package>
+    <entity name="Department" class="Department" access="FIELD">
+        <java-attributes type="Long" scope="public"/>
+        <table name="L004_DEPARTMENT_MASTER" catalog="postgres" schema="JPA" ></table>
+        <attributes>
+            <id name="departmentId">
+                <sequence-generator name="SEQ_L004_DEPARTMENT_MASTER" sequence-name="seq_l004_department_master" allocation-size="1" initial-value="1"></sequence-generator>
+                <generated-value generator="SEQ_L004_DEPARTMENT_MASTER" strategy="SEQUENCE"/>
+                <java-attributes type="Long" scope="protected">
+                    <getter name="getDepartmentId" scope="public"/>
+                    <setter name="setDepartmentId" scope="public"/> 
+                </java-attributes>
+                <column name="EMPLOYEE_ID_N" nullable="false" unique="true"/>
+            </id>
+            <basic name="name" fetch="EAGER" optional="true">
+                <java-attributes type="String" scope="protected">
+                    <getter name="getName" scope="public"/>
+                    <setter name="setName" scope="public"/> 
+                </java-attributes>
+                <column name="NAME_V" nullable="false"/>                
+            </basic>
+            <version name="lastUpdateTime">
+                <java-attributes type="Date" scope="protected">
+                    <getter name="getLastUpdateTime" scope="public"/>
+                </java-attributes>
+                <column name="LAST_UPDATE_TIME_T" nullable="false"/>                
+                <temporal>TIMESTAMP</temporal>                                
+            </version>
+            <many-to-many name="linesOfBusiness" fetch="LAZY" optional="true" >
+                <java-attributes type="LineOfBusiness" scope="protected">
+                    <getter name="getLinesOfBusiness" scope="public"/>
+                    <adder name="addLineOfBusiness"/>
+                    <remover name="removeLineOfBusiness"/>
+                    <enquirer name="hasLineOfBusiness"/> 
+                </java-attributes>
+                <join-table name="DEPARTMENT_LOBS">
+                    <join-column name="DEPARTMENT_ID_N" referenced-column-name="DEPARTMENT_ID_N"/>
+                    <inverse-join-column name="LOB_ID_N" referenced-column-name="LOB_ID_N"/>
+                </join-table>
+            </many-to-many>
+            <one-to-many name="employees" mapped-by="department" fetch="LAZY" orphan-removal="true">
+                <java-attributes type="Employee" scope="protected">
+                    <getter name="getEmployees" scope="public"/>
+                    <adder name="addEmployee" scope="public"/>
+                    <remover name="removeEmployee" scope="public"/>
+                    <acquirer name="acquireEmployee"/> 
+                    <enquirer name="hasEmployee"/> 
+                </java-attributes>
+            </one-to-many>
+        </attributes>
+    </entity>
+</entity-mappings>

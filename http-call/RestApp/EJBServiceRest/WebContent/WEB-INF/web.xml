@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>EJBServiceRest</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+ 
+  <context-param>
+  	<param-name>resteasy.jndi.resources</param-name>
+  	<param-value>java:global/EJBServicesApplication/EJBServices/TestService!resttest.TestLocalInterface</param-value>
+  </context-param>
+
+   <servlet-mapping>
+       <servlet-name>javax.ws.rs.core.Application</servlet-name>
+       <url-pattern>/rest/*</url-pattern>
+   </servlet-mapping>
+
+  <login-config>
+  	<auth-method>BASIC</auth-method>
+  	<realm-name>ApplicationRealm</realm-name>
+  </login-config>
+	
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>TestService</web-resource-name>
+			<url-pattern>/EJBServices/*</url-pattern>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>*</role-name>
+		</auth-constraint>
+		<user-data-constraint>
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+	
+   <security-constraint>
+  	<!-- 
+  		1.This is required for authentication to work properly. 
+  		2. From the error traces looks like authentication is done at EJB level and not at rest level.
+  		3. It seems that these entries are required to force resteasy to retrieve the roles from user/roles database 
+  		4. Trying to do a EJB integration as per resteasy documentation does not work.
+  		5. This requires JAX-RS annotations on the bean class and the bean class is the local interface.
+  		6. JAX-RS annotations on a local interface need to be tested. Has got errors previously saying no default constructor
+  			Though it is not clear from jax-rs spec how ejb integration should work, this doc at 
+  			(http://docs.oracle.com/javaee/6/tutorial/doc/gkncy.html) seems to say it is required to annotate the bean class.
+  			However, jax-rs 1.1 specifically requires support of annotations on local interface
+  			Well, local interface annotation also seems to be working. Context param resteasy.jndi.resources is required for this.
+  		7. Conclusions here may be wrong. But the configuration seem to work.
+  		8. Tested EJB injection. That also works.
+    -->
+  	<web-resource-collection>
+  		<web-resource-name>javax.ws.rs.core.Application</web-resource-name>
+  		<url-pattern>/rest/*</url-pattern>
+  		<http-method>GET</http-method>
+  		<http-method>PUT</http-method>
+  	</web-resource-collection>
+  	<auth-constraint>
+  		<role-name>*</role-name>
+  	</auth-constraint>
+  	<user-data-constraint>
+  		<transport-guarantee>NONE</transport-guarantee>
+  	</user-data-constraint>
+  </security-constraint>
+  
+  <security-role>
+  	<role-name>*</role-name>
+  </security-role>
+   </web-app>

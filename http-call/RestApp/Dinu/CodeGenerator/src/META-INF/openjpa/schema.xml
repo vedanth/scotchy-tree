@@ -1,0 +1,767 @@
+<schemas>
+    <schema>
+        <sequence name="hibernate_sequence"/>
+        <sequence name="seq_department_master"/>
+        <sequence name="seq_employee_master"/>
+        <sequence name="seq_l001_employee_master"/>
+        <sequence name="seq_l003_employee_master"/>
+        <sequence name="seq_l004_department_master"/>
+        <sequence name="seq_l004_employee_master"/>
+        <sequence name="seq_l004_skill_master"/>
+    </schema>
+    <schema name="pc">
+        <table name="offer_relation_type_master">
+            <pk name="offer_relation_type_master_pkey" column="relation_type_n"/>
+            <column name="relation_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="relation_class_v" type="varchar" not-null="true" size="255"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="offer_relation_type_master_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="offer_relation_type_master_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+            <index name="offer_rt_mast_name_unq1" unique="true" column="name_v"/>
+        </table>
+        <table name="lifecycle_state_transition">
+            <pk name="lc_st_id_unq1">
+                <on column="lifecycle_id_n"/>
+                <on column="source_status_n"/>
+                <on column="target_status_n"/>
+            </pk>
+            <column name="lifecycle_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="source_status_n" type="numeric" not-null="true" size="19"/>
+            <column name="target_status_n" type="numeric" not-null="true" size="19"/>
+            <column name="allow_n" type="numeric" not-null="true" size="1"/>
+            <fk name="lifecycle_state_transition_lifecycle_id_n_fkey" delete-action="restrict" to-table="pc.lifecycle_master" column="lifecycle_id_n"/>
+            <fk name="lifecycle_state_transition_source_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="source_status_n"/>
+            <fk name="lifecycle_state_transition_target_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="target_status_n"/>
+        </table>
+        <table name="lifecycle_operations">
+            <pk name="lc_events_id_operation_unq1">
+                <on column="lifecycle_id_n"/>
+                <on column="operation_v"/>
+                <on column="source_status_n"/>
+            </pk>
+            <column name="lifecycle_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="operation_v" type="varchar" not-null="true" size="255"/>
+            <column name="source_status_n" type="numeric" not-null="true" size="19"/>
+            <column name="allow_n" type="numeric" not-null="true" size="1"/>
+            <fk name="lifecycle_operations_lifecycle_id_n_fkey" delete-action="restrict" to-table="pc.lifecycle_master" column="lifecycle_id_n"/>
+            <fk name="lifecycle_operations_source_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="source_status_n"/>
+        </table>
+        <table name="lifecycle_master">
+            <pk name="lifecycle_master_pkey" column="lifecycle_id_n"/>
+            <column name="lifecycle_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="lifecycle_master_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+            <index name="lc_mast_name_unq1" unique="true" column="name_v"/>
+        </table>
+        <table name="language_master">
+            <pk name="language_master_pkey" column="language_id_v"/>
+            <column name="language_id_v" type="varchar" not-null="true" size="20"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="language_master_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="language_master_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+            <index name="lang_mast_name_unq1" unique="true" column="name_v"/>
+        </table>
+        <table name="fact_master">
+            <pk name="fact_master_pkey" column="fact_id_n"/>
+            <column name="fact_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="fact_name_v" type="varchar" not-null="true" size="255"/>
+            <column name="type_v" type="varchar" not-null="true" size="255"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="fact_master_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="fact_master_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+            <index name="fact_mast_name_unq1" unique="true" column="fact_name_v"/>
+        </table>
+        <table name="fact_field_master">
+            <pk name="fact_field_master_pkey" column="fact_field_id_n"/>
+            <column name="fact_field_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="fact_field_name_v" type="varchar" not-null="true" size="255"/>
+            <column name="fact_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="data_type_v" type="varchar" not-null="true" size="255"/>
+            <column name="fact_field_type_v" type="varchar" not-null="true" size="255"/>
+            <column name="service_name_v" type="varchar" size="255"/>
+            <column name="tag_type_id_n" type="numeric" size="19"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="fact_field_master_fact_id_n_fkey" delete-action="restrict" to-table="pc.fact_master" column="fact_id_n"/>
+            <fk name="fact_field_master_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="fact_field_master_tag_type_id_n_fkey" delete-action="restrict" to-table="pc.tag_type_master" column="tag_type_id_n"/>
+            <index name="fact_field_master_unq1" unique="true">
+                <on column="fact_field_name_v"/>
+                <on column="fact_id_n"/>
+            </index>
+            <index name="ffield_mast_name_unq1" unique="true" column="fact_field_name_v"/>
+        </table>
+        <table name="enumeration_type_master">
+            <pk name="enumeration_type_master_pkey" column="enumeration_type_id_n"/>
+            <column name="enumeration_type_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <index name="enum_mast_name_unq1" unique="true" column="name_v"/>
+        </table>
+        <table name="enumerations">
+            <pk name="enumerations_pkey">
+                <on column="enumeration_type_id_n"/>
+                <on column="enumeration_id_n"/>
+            </pk>
+            <column name="enumeration_type_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="enumeration_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="enumerations_enumeration_type_id_n_fkey" delete-action="restrict" to-table="pc.enumeration_type_master" column="enumeration_type_id_n"/>
+        </table>
+        <table name="entity_type_master">
+            <pk name="entity_type_master_pkey" column="entity_type_n"/>
+            <column name="entity_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="entity_type_master_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="entity_type_master_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+            <index name="entity_type_mast_name_unq1" unique="true" column="name_v"/>
+        </table>
+        <table name="currency_master">
+            <pk name="currency_master_pkey" column="currency_v"/>
+            <column name="currency_v" type="varchar" not-null="true" size="5"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="no_of_decimals_n" type="numeric" not-null="true" default="0" size="2"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="currency_master_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="currency_master_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+            <index name="currency_type_mast_name_unq1" unique="true" column="name_v"/>
+        </table>
+        <table name="char_value_relation_type_master">
+            <pk name="char_val_rel_type_master_pkey" column="relation_type_n"/>
+            <column name="relation_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="relation_class_v" type="varchar" not-null="true" size="255"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="char_val_rel_type_master_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="char_val_rel_type_master_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+            <index name="char_vrt_mast_name_unq1" unique="true" column="name_v"/>
+        </table>
+        <table name="char_relation_type_master">
+            <pk name="char_relation_type_master_pkey" column="relation_type_n"/>
+            <column name="relation_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="relation_class_v" type="varchar" not-null="true" size="255"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="char_relation_type_master_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="char_relation_type_master_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+            <index name="char_rt_mast_name_unq1" unique="true" column="name_v"/>
+        </table>
+        <table name="policy_master">
+            <pk name="policy_master_pkey" column="policy_id_n"/>
+            <column name="policy_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="policy_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="rule_string_v" type="varchar" size="32000"/>
+            <column name="rule_v" type="bigint" type-name="oid" size="10"/>
+            <column name="template_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="policy_master_template_id_n_fkey" delete-action="restrict" to-table="pc.policy_params_template_master" column="template_id_n"/>
+            <fk name="policy_master_policy_type_n_fkey" delete-action="restrict" to-table="pc.policy_type_master" column="policy_type_n"/>
+            <fk name="policy_master_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="policy_master_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+            <index name="policy_mast_name_unq1" unique="true" column="name_v"/>
+        </table>
+        <table name="policy_params_rule_template">
+            <pk name="policy_params_rule_master_pkey" column="rule_template_id_n"/>
+            <column name="rule_template_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+        </table>
+        <table name="policy_params_template_details">
+            <pk name="temp_details_pkey">
+                <on column="template_id_n"/>
+                <on column="fact_field_id_n"/>
+                <on column="rule_template_id_n"/>
+            </pk>
+            <column name="template_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="fact_field_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="rule_template_id_n" type="numeric" not-null="true" size="19"/>
+            <fk name="policy_params_template_details_fact_field_id_n_fkey" delete-action="restrict" to-table="pc.fact_field_master" column="fact_field_id_n"/>
+            <fk name="policy_params_template_details_ruletamplate_id_n_fkey" delete-action="restrict" to-table="pc.policy_params_rule_template" column="rule_template_id_n"/>
+            <fk name="policy_params_template_details_template_id_n_fkey" delete-action="restrict" to-table="pc.policy_params_template_master" column="template_id_n"/>
+        </table>
+        <table name="policy_params_template_master">
+            <pk name="policy_params_template_master_pkey" column="template_id_n"/>
+            <column name="template_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="policy_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="policy_type_master_fk" delete-action="restrict" to-table="pc.policy_type_master" column="policy_type_n"/>
+            <fk name="policy_params_template_master_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <index name="template_mast_name_unq1" unique="true" column="name_v"/>
+        </table>
+        <table name="policy_type_details">
+            <pk name="policy_type_det_pkey">
+                <on column="policy_type_n"/>
+                <on column="version_date_dt"/>
+            </pk>
+            <column name="policy_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="version_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="rules_b" type="bigint" type-name="oid" size="10"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="policy_type_details_policy_type_n_fkey" delete-action="restrict" to-table="pc.policy_type_master" column="policy_type_n"/>
+        </table>
+        <table name="policy_type_master">
+            <pk name="policy_type_master_pkey" column="policy_type_n"/>
+            <column name="policy_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="policy_type_master_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="policy_type_master_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+            <index name="policy_type_mast_name_unq1" unique="true" column="name_v"/>
+        </table>
+        <table name="po_offer">
+            <pk name="po_offer_pkey" column="offer_id_n"/>
+            <column name="offer_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="version_type_n" type="numeric" not-null="true" default="0" size="19"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="po_offer_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="po_offer_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+        </table>
+        <table name="po_offer_policy">
+            <pk name="po_offer_policy_pkey">
+                <on column="offer_id_n"/>
+                <on column="policy_id_n"/>
+            </pk>
+            <column name="offer_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="policy_id_n" type="numeric" not-null="true" size="19"/>
+            <!-- 
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            -->
+            <fk name="po_offer_policy_offer_id_n_fkey" delete-action="restrict" to-table="pc.po_offer" column="offer_id_n"/>
+            <fk name="po_offer_policy_policy_id_n_fkey" delete-action="restrict" to-table="pc.policy_master" column="policy_id_n"/>
+        </table>
+        <table name="po_offer_price">
+            <pk name="po_offer_price_pkey">
+                <on column="offer_id_n"/>
+                <on column="price_id_n"/>
+            </pk>
+            <column name="offer_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="price_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="po_offer_price_offer_id_n_fkey" delete-action="restrict" to-table="pc.po_offer" column="offer_id_n"/>
+            <fk name="po_offer_price_price_id_n_fkey" delete-action="restrict" to-table="pc.po_price" column="price_id_n"/>
+        </table>
+        <table name="po_offer_spec">
+            <pk name="po_offer_spec_pkey">
+                <on column="offer_id_n"/>
+                <on column="spec_id_n"/>
+            </pk>
+            <column name="offer_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="spec_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="po_offer_spec_offer_id_n_fkey" delete-action="restrict" to-table="pc.po_offer" column="offer_id_n"/>
+            <fk name="po_offer_spec_spec_id_n_fkey" delete-action="restrict" to-table="pc.ps_spec" column="spec_id_n"/>
+        </table>
+        <table name="po_price">
+            <pk name="po_price_pkey" column="price_id_n"/>
+            <column name="price_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="price_policy_n" type="numeric" size="19"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="version_type_n" type="numeric" not-null="true" default="0" size="19"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="po_price_price_policy_n_fkey" delete-action="restrict" to-table="pc.policy_master" column="price_policy_n"/>
+            <fk name="po_price_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="po_price_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+        </table>
+        <table name="po_price_component">
+            <pk name="po_price_component_pkey" column="price_id_n"/>
+            <column name="price_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="price_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="unit_of_measure_n" type="numeric" not-null="true" size="19"/>
+            <column name="currency_v" type="varchar" size="5"/>
+            <column name="default_value_n" type="numeric" not-null="true" default="0" size="19"/>
+            <fk name="po_price_component_currency_v_fkey" delete-action="restrict" to-table="pc.currency_master" column="currency_v"/>
+            <fk name="po_price_component_price_id_n_fkey" delete-action="restrict" to-table="pc.po_price" column="price_id_n"/>
+            <fk name="po_price_component_price_type_n_fkey" delete-action="restrict" to-table="pc.price_type_master" column="price_type_n"/>
+            <fk name="po_price_component_unit_of_measure_n_fkey" delete-action="restrict" to-table="pc.unit_of_measure_master" column="unit_of_measure_n"/>
+        </table>
+        <table name="po_price_event">
+            <pk name="po_price_event_pkey">
+                <on column="price_id_n"/>
+                <on column="event_id_n"/>
+            </pk>
+            <column name="price_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="event_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="frequency_n" type="numeric" not-null="true" default="1" size="19"/>
+            <column name="no_of_occurences_n" type="numeric" not-null="true" default="0" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="po_price_event_price_id_n_fkey" delete-action="restrict" to-table="pc.po_price" column="price_id_n"/>
+            <fk name="po_price_event_event_id_n_fkey" delete-action="restrict" to-table="pc.po_price_event_master" column="event_id_n"/>
+        </table>
+        <table name="po_price_event_master">
+            <pk name="po_price_event_master_pkey" column="event_id_n"/>
+            <column name="event_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="po_price_event_master_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="po_price_event_master_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+        </table>
+        <table name="po_price_relation">
+            <pk name="po_price_relation_pkey" column="relation_id_n"/>
+            <column name="relation_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="price_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="relation_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="po_price_relation_id_n_fkey" delete-action="restrict" to-table="pc.po_price" column="price_id_n"/>
+            <fk name="po_price_relation_type_n_fkey" delete-action="restrict" to-table="pc.price_relation_type_master" column="relation_type_n"/>
+            <index name="po_price_relation_id_type_unq1" unique="true">
+                <on column="price_id_n"/>
+                <on column="relation_type_n"/>
+            </index>
+        </table>
+        <table name="po_price_relation_details">
+            <pk name="po_price_rel_details_pkey">
+                <on column="relation_id_n"/>
+                <on column="related_price_id_n"/>
+            </pk>
+            <column name="relation_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="related_price_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="seq_id_n" type="numeric" not-null="true" default="1" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="po_price_relation_dtls_related_id_n_fkey" delete-action="restrict" to-table="pc.po_price" column="related_price_id_n"/>
+            <fk name="po_price_rel_dtls_relation_id_n_fkey" delete-action="restrict" to-table="pc.po_price_relation" column="relation_id_n"/>
+        </table>
+        <table name="po_price_spec">
+            <pk name="po_price_spec_pkey">
+                <on column="price_id_n"/>
+                <on column="spec_id_n"/>
+            </pk>
+            <column name="price_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="spec_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="po_price_spec_price_id_n_fkey" delete-action="restrict" to-table="pc.po_price" column="price_id_n"/>
+            <fk name="po_price_spec_spec_id_n_fkey" delete-action="restrict" to-table="pc.ps_spec" column="spec_id_n"/>
+        </table>
+        <table name="po_topselling">
+            <pk name="po_topselling_pkey" column="topselling_id_n"/>
+            <column name="topselling_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="offer_id_n" type="numeric" size="19"/>
+            <column name="description_v" type="varchar" size="255"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="po_topselling_fk" delete-action="restrict" to-table="pc.po_offer" column="offer_id_n"/>
+            <fk name="po_topselling_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="po_topselling_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+        </table>
+        <table name="po_upcoming">
+            <pk name="po_upcoming_pkey" column="upcoming_id_n"/>
+            <column name="upcoming_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="offer_id_n" type="numeric" size="19"/>
+            <column name="description_v" type="varchar" size="255"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="po_upcoming_fk" delete-action="restrict" to-table="pc.po_offer" column="offer_id_n"/>
+            <fk name="po_upcoming_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="po_upcoming_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+        </table>
+        <table name="price_relation_type_master">
+            <pk name="price_relation_type_master_pkey" column="relation_type_n"/>
+            <column name="relation_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="relation_class_v" type="varchar" not-null="true" size="255"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="price_relation_type_master_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="price_relation_type_master_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+            <index name="price_rt_mast_name_unq1" unique="true" column="name_v"/>
+        </table>
+        <table name="price_type_master">
+            <pk name="price_type_master_pkey" column="price_type_n"/>
+            <column name="price_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="price_type_master_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="price_type_master_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+            <index name="price_type_mast_name_unq1" unique="true" column="name_v"/>
+        </table>
+        <table name="ps_char">
+            <pk name="ps_char_pkey" column="char_id_n"/>
+            <column name="char_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="type_n" type="numeric" not-null="true" size="19"/>
+            <column name="package_option_n" type="numeric" not-null="true" default="0" size="19"/>
+            <column name="can_be_overridden_n" type="numeric" not-null="true" default="0" size="1"/>
+            <column name="unique_n" type="numeric" not-null="true" default="0" size="1"/>
+            <column name="value_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="min_cardinality_n" type="numeric" not-null="true" default="1" size="19"/>
+            <column name="max_cardinality_n" type="numeric" not-null="true" default="1" size="19"/>
+            <column name="extensible_n" type="numeric" not-null="true" default="0" size="19"/>
+            <column name="derivation_rules_n" type="numeric" size="19"/>
+            <column name="version_type_n" type="numeric" not-null="true" default="0" size="19"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="ps_char_type_n_fkey" delete-action="restrict" to-table="pc.spec_type_master" column="type_n"/>
+            <fk name="ps_char_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="ps_char_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+            <fk name="ps_char_value_type_n_fkey" delete-action="restrict" to-table="pc.value_type_master" column="value_type_n"/>
+        </table>
+        <table name="ps_char_relation">
+            <pk name="ps_char_relation_pkey" column="relation_id_n"/>
+            <column name="relation_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="char_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="relation_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="ps_char_relation_type_n_fkey" delete-action="restrict" to-table="pc.char_relation_type_master" column="relation_type_n"/>
+            <fk name="ps_char_relation_id_n_fkey" delete-action="restrict" to-table="pc.ps_char" column="char_id_n"/>
+            <index name="ps_char_relation_id_type_unq1" unique="true">
+                <on column="char_id_n"/>
+                <on column="relation_type_n"/>
+            </index>
+        </table>
+        <table name="ps_char_relation_details">
+            <pk name="ps_char_relation_details_pkey">
+                <on column="relation_id_n"/>
+                <on column="related_char_id_n"/>
+            </pk>
+            <column name="relation_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="related_char_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="seq_id_n" type="numeric" not-null="true" default="1" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="ps_char_relation_dtls_related_id_n_fkey" delete-action="restrict" to-table="pc.ps_char" column="related_char_id_n"/>
+            <fk name="ps_char_relation_dtls_relation_id_n_fkey" delete-action="restrict" to-table="pc.ps_char_relation" column="relation_id_n"/>
+        </table>
+        <table name="ps_char_value">
+            <pk name="ps_char_value_pkey" column="char_value_id_n"/>
+            <column name="char_value_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="char_id_n" type="numeric" size="19"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="default_option_n" type="numeric" not-null="true" default="0" size="19"/>
+            <column name="unit_of_measure_n" type="numeric" not-null="true" size="19"/>
+            <column name="value_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="range_interval_v" type="varchar" size="4000"/>
+            <column name="value_from_v" type="varchar" size="4000"/>
+            <column name="value_to_v" type="varchar" size="4000"/>
+            <column name="value_v" type="varchar" size="4000"/>
+            <column name="version_type_n" type="numeric" not-null="true" default="0" size="19"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="ps_char_value_char_id_n_fkey" delete-action="restrict" to-table="pc.ps_char" column="char_id_n"/>
+            <fk name="ps_char_value_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="ps_char_value_unit_of_measure_n_fkey" delete-action="restrict" to-table="pc.unit_of_measure_master" column="unit_of_measure_n"/>
+            <fk name="ps_char_value_value_type_n_fkey" delete-action="restrict" to-table="pc.value_type_master" column="value_type_n"/>
+            <index name="char_val_mast_name_unq1" unique="true">
+                <on column="char_id_n"/>
+                <on column="name_v"/>
+            </index>
+        </table>
+        <table name="ps_char_value_relation">
+            <pk name="ps_char_val_rel_pkey" column="relation_id_n"/>
+            <column name="relation_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="char_value_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="relation_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="ps_char_val_relation_type_n_fkey" delete-action="restrict" to-table="pc.char_value_relation_type_master" column="relation_type_n"/>
+            <fk name="ps_char_val_rel_id_n_fkey" delete-action="restrict" to-table="pc.ps_char_value" column="char_value_id_n"/>
+            <index name="ps_char_value_relation_id_type_unq1" unique="true">
+                <on column="char_value_id_n"/>
+                <on column="relation_type_n"/>
+            </index>
+        </table>
+        <table name="ps_char_value_relation_details">
+            <pk name="ps_char_val_rel_details_pkey">
+                <on column="relation_id_n"/>
+                <on column="related_char_value_id_n"/>
+            </pk>
+            <column name="relation_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="related_char_value_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="seq_id_n" type="numeric" not-null="true" default="1" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="ps_char_relation_dtls_related_id_n_fkey" delete-action="restrict" to-table="pc.ps_char_value" column="related_char_value_id_n"/>
+            <fk name="ps_char_val_rel_dtls_relation_id_n_fkey" delete-action="restrict" to-table="pc.ps_char_value_relation" column="relation_id_n"/>
+        </table>
+        <table name="ps_offer_relation">
+            <pk name="ps_offer_relation_pkey" column="relation_id_n"/>
+            <column name="relation_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="offer_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="relation_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="ps_offer_relation_type_n_fkey" delete-action="restrict" to-table="pc.offer_relation_type_master" column="relation_type_n"/>
+            <fk name="ps_offer_relation_id_n_fkey" delete-action="restrict" to-table="pc.po_offer" column="offer_id_n"/>
+            <index name="ps_offer_relation_id_type_unq1" unique="true">
+                <on column="offer_id_n"/>
+                <on column="relation_type_n"/>
+            </index>
+        </table>
+        <table name="ps_offer_relation_details">
+            <pk name="ps_offer_relation_details_pkey">
+                <on column="relation_id_n"/>
+                <on column="related_offer_id_n"/>
+            </pk>
+            <column name="relation_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="related_offer_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="seq_id_n" type="numeric" not-null="true" default="1" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="ps_offer_relation_dtls_related_id_n_fkey" delete-action="restrict" to-table="pc.po_offer" column="related_offer_id_n"/>
+            <fk name="ps_offer_relation_dtls_relation_id_n_fkey" delete-action="restrict" to-table="pc.ps_offer_relation" column="relation_id_n"/>
+        </table>
+        <table name="ps_spec">
+            <pk name="ps_spec_pkey" column="spec_id_n"/>
+            <column name="spec_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="type_n" type="numeric" not-null="true" size="19"/>
+            <column name="version_type_n" type="numeric" not-null="true" default="0" size="19"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="ps_spec_type_n_fkey" delete-action="restrict" to-table="pc.spec_type_master" column="type_n"/>
+            <fk name="ps_spec_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="ps_spec_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+        </table>
+        <table name="ps_spec_char">
+            <pk name="ps_spec_char_pkey">
+                <on column="spec_id_n"/>
+                <on column="char_id_n"/>
+            </pk>
+            <column name="spec_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="char_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="ps_spec_char_char_id_n_fkey" delete-action="restrict" to-table="pc.ps_char" column="char_id_n"/>
+            <fk name="ps_spec_char_spec_id_n_fkey" delete-action="restrict" to-table="pc.ps_spec" column="spec_id_n"/>
+        </table>
+        <table name="ps_spec_char_value">
+            <pk name="ps_spec_char_value_pkey">
+                <on column="spec_id_n"/>
+                <on column="char_id_n"/>
+                <on column="char_value_id_n"/>
+            </pk>
+            <column name="spec_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="char_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="char_value_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="default_option_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="ps_spec_char_value_id_n_fkey" delete-action="restrict" to-table="pc.ps_char_value" column="char_value_id_n"/>
+            <fk name="ps_spec_id_char_id_n_fkey" delete-action="restrict" to-table="pc.ps_spec_char">
+                <join column="spec_id_n" to-column="spec_id_n"/>
+                <join column="char_id_n" to-column="char_id_n"/>
+            </fk>
+        </table>
+        <table name="ps_spec_relation">
+            <pk name="ps_spec_relation_pkey" column="relation_id_n"/>
+            <column name="relation_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="spec_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="relation_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="ps_spec_relation_id_n_fkey" delete-action="restrict" to-table="pc.ps_spec" column="spec_id_n"/>
+            <fk name="ps_char_relation_type_n_fkey" delete-action="restrict" to-table="pc.spec_relation_type_master" column="relation_type_n"/>
+            <index name="ps_spec_relation_id_type_unq1" unique="true">
+                <on column="spec_id_n"/>
+                <on column="relation_type_n"/>
+            </index>
+        </table>
+        <table name="ps_spec_relation_details">
+            <pk name="ps_spec_relation_details_pkey">
+                <on column="relation_id_n"/>
+                <on column="related_spec_id_n"/>
+            </pk>
+            <column name="relation_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="related_spec_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="seq_id_n" type="numeric" not-null="true" default="1" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="ps_char_relation_dtls_related_id_n_fkey" delete-action="restrict" to-table="pc.ps_spec" column="related_spec_id_n"/>
+            <fk name="ps_spec_relation_dtls_relation_id_n_fkey" delete-action="restrict" to-table="pc.ps_spec_relation" column="relation_id_n"/>
+        </table>
+        <table name="spec_relation_type_master">
+            <pk name="spec_relation_type_master_pkey" column="relation_type_n"/>
+            <column name="relation_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="relation_class_v" type="varchar" not-null="true" size="255"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="spec_relation_type_master_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="spec_relation_type_master_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+            <index name="spec_rt_mast_name_unq1" unique="true" column="name_v"/>
+        </table>
+        <table name="spec_type_master">
+            <pk name="spec_type_master_pkey" column="spec_type_n"/>
+            <column name="spec_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="spec_type_master_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="spec_type_master_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+            <index name="spec_type_mast_name_unq1" unique="true" column="name_v"/>
+        </table>
+        <table name="status_master">
+            <pk name="status_master_pkey" column="status_n"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="name_v" type="varchar" size="255"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="status_master_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+            <index name="status_mast_name_unq1" unique="true" column="name_v"/>
+        </table>
+        <table name="tags">
+            <pk name="tags_pkey" column="tag_id_n"/>
+            <column name="tag_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="entity_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="entity_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="tag_master_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="tag_value_v" type="varchar" size="2000"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="tags_entity_type_n_fkey" delete-action="restrict" to-table="pc.entity_type_master" column="entity_type_n"/>
+            <fk name="tags_tag_master_id_n_fkey" delete-action="restrict" to-table="pc.tag_master" column="tag_master_id_n"/>
+            <index name="tags_unq1" unique="true">
+                <on column="entity_type_n"/>
+                <on column="entity_id_n"/>
+                <on column="tag_master_id_n"/>
+            </index>
+        </table>
+        <table name="tag_master">
+            <pk name="tag_master_pkey" column="tag_master_id_n"/>
+            <column name="tag_master_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="tag_type_id" type="numeric" not-null="true" size="19"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="tag_master_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="tag_master_tag_type_id_fkey" delete-action="restrict" to-table="pc.tag_type_master" column="tag_type_id"/>
+            <fk name="tag_master_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+            <index name="tag_mast_name_unq1" unique="true" column="name_v"/>
+        </table>
+        <table name="tag_type_master">
+            <pk name="tag_type_master_pkey" column="tag_type_id_n"/>
+            <column name="tag_type_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="tag_type_master_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="tag_type_master_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+            <index name="tag_type_mast_name_unq1" unique="true" column="name_v"/>
+        </table>
+        <table name="tenant_master">
+            <pk name="tenant_master_pkey" column="tenant_id_n"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <index name="tenant_mast_name_unq1" unique="true" column="name_v"/>
+        </table>
+        <table name="unit_of_measure_master">
+            <pk name="unit_of_measure_master_pkey" column="unit_of_measure_n"/>
+            <column name="unit_of_measure_n" type="numeric" not-null="true" size="19"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="unit_of_measure_master_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="unit_of_measure_master_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+            <index name="uom_name_unq1" unique="true" column="name_v"/>
+        </table>
+        <table name="value_type_master">
+            <pk name="value_type_master_pkey" column="value_type_n"/>
+            <column name="value_type_n" type="numeric" not-null="true" size="19"/>
+            <column name="name_v" type="varchar" not-null="true" size="255"/>
+            <column name="tenant_id_n" type="numeric" not-null="true" size="19"/>
+            <column name="start_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="end_date_dt" type="timestamp" type-name="timestamptz" not-null="true" size="35" decimal-digits="6"/>
+            <column name="status_n" type="numeric" not-null="true" size="19"/>
+            <column name="last_updated_time_dt" type="timestamp" type-name="timestamptz" not-null="true" default="now()" size="35" decimal-digits="6"/>
+            <fk name="value_type_master_status_n_fkey" delete-action="restrict" to-table="pc.status_master" column="status_n"/>
+            <fk name="value_type_master_tenant_id_n_fkey" delete-action="restrict" to-table="pc.tenant_master" column="tenant_id_n"/>
+            <index name="value_type_mast_name_unq1" unique="true" column="name_v"/>
+        </table>
+    </schema>
+</schemas>
