@@ -1,0 +1,3 @@
+1> Quartz clutering works fine only when all the servers are in sync with ntp date.
+2> Mycluster.war works only with oracle jdk not with open jdk(because of rhino parser.. http://www.mail-archive.com/openjdk@lists.launchpad.net/msg08704.html).
+3> Dialect of the database should be specific to the Db being used, do not use stdjdbcdialect.
