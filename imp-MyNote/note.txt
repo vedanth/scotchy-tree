@@ -1,9 +1,32 @@
 ### Change symbolic link from open jre to oracle jre
 sudo alternatives --install /usr/bin/java java /usr/java/jdk1.6.0_38/jre/bin/java 20000
 
+
 ### Change symbolic link from oracle jre to open jre 
 sudo alternatives --remove java /usr/java/jdk1.6.0_38/jre/bin/java
 
-Added from git hub
+
+### Increase Ulimit size linux
+ulimit -Hn ## To get the hard limit size
+ulimit -Sn ## To get the soft limit size
+
+vi /etc/security/limits.conf
+appuser          soft    nofile          4096
+appuser          hard    nofile          10240
 
 
+### Access remote jvm from jconsole
+service:jmx:remoting-jmx://192.168.2.210:9999
+### mgmt user and password
+
+
+### Configuring infinispan cache entries -->  
+<property name="hibernate.cache.infinispan.entity.eviction.strategy" value= "LRU"/> <!-- eviction.strategy algorithm -->
+<property name="hibernate.cache.infinispan.entity.expiration.wake_up_interval" value= "30000"/> <!-- interval at which the thread wakes up for purging-->
+<property name="hibernate.cache.infinispan.entity.eviction.max_entries" value= "600"/> <!-- maximum entries of each entity to be stored in the cache -->
+<!--<property name="hibernate.cache.infinispan.entity.expiration.lifespan" value= "6000000"/>-->
+<property name="hibernate.cache.infinispan.entity.expiration.max_idle" value= "50000"/> <!-- Idle time of an entity after which the entry will be  
+
+wake_up_interval is moved to expiration from eviction
+expiration is cluster wide.
+eviction is per local cache.
