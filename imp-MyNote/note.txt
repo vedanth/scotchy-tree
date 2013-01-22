@@ -1,32 +1,74 @@
 ### Change symbolic link from open jre to oracle jre
-sudo alternatives --install /usr/bin/java java /usr/java/jdk1.6.0_38/jre/bin/java 20000
+	sudo alternatives --install /usr/bin/java java /usr/java/jdk1.6.0_38/jre/bin/java 20000
 
 
 ### Change symbolic link from oracle jre to open jre 
-sudo alternatives --remove java /usr/java/jdk1.6.0_38/jre/bin/java
+	sudo alternatives --remove java /usr/java/jdk1.6.0_38/jre/bin/java
 
 
 ### Increase Ulimit size linux
-ulimit -Hn ## To get the hard limit size
-ulimit -Sn ## To get the soft limit size
+	ulimit -Hn ## To get the hard limit size
+	ulimit -Sn ## To get the soft limit size
 
-vi /etc/security/limits.conf
-appuser          soft    nofile          4096
-appuser          hard    nofile          10240
+	vi /etc/security/limits.conf
+	appuser          soft    nofile          4096
+	appuser          hard    nofile          10240
 
 
 ### Access remote jvm from jconsole
-service:jmx:remoting-jmx://192.168.2.210:9999
-### mgmt user and password
+	service:jmx:remoting-jmx://192.168.2.210:9999
+	(Use mgmt user and password)
 
 
 ### Configuring infinispan cache entries -->  
-<property name="hibernate.cache.infinispan.entity.eviction.strategy" value= "LRU"/> <!-- eviction.strategy algorithm -->
-<property name="hibernate.cache.infinispan.entity.expiration.wake_up_interval" value= "30000"/> <!-- interval at which the thread wakes up for purging-->
-<property name="hibernate.cache.infinispan.entity.eviction.max_entries" value= "600"/> <!-- maximum entries of each entity to be stored in the cache -->
-<!--<property name="hibernate.cache.infinispan.entity.expiration.lifespan" value= "6000000"/>-->
-<property name="hibernate.cache.infinispan.entity.expiration.max_idle" value= "50000"/> <!-- Idle time of an entity after which the entry will be  
+	<property name="hibernate.cache.infinispan.entity.eviction.strategy" value= "LRU"/> <!-- eviction.strategy algorithm -->
+	<property name="hibernate.cache.infinispan.entity.expiration.wake_up_interval" value= "30000"/> <!-- interval at which the thread wakes up for purging-->
+	<property name="hibernate.cache.infinispan.entity.eviction.max_entries" value= "600"/> <!-- maximum entries of each entity to be stored in the cache -->
+	<!--<property name="hibernate.cache.infinispan.entity.expiration.lifespan" value= "6000000"/>-->
+	<property name="hibernate.cache.infinispan.entity.expiration.max_idle" value= "50000"/> <!-- Idle time of an entity after which the entry will be  
 
-wake_up_interval is moved to expiration from eviction
-expiration is cluster wide.
-eviction is per local cache.
+	wake_up_interval is moved to expiration from eviction
+	expiration is cluster wide.
+	eviction is per local cache.
+
+
+### SSH with DSA public key authentication
+	Assumption : M1 needs to ssh to M2 without password prompt.
+
+	In M1: (use default passphrase)
+	----------------------------------------
+	$ ssh-keygen -t dsa
+	$ cd
+	$ chmod 755 .ssh
+	$ scp ~/.ssh/id_dsa.pub user@M2:.ssh/authorized_keys
+
+	In M2: 
+	----------------------------------------
+	$ chmod 600 ~/.ssh/authorized_keys
+
+	In M1: 
+	----------------------------------------
+	$ ssh user@M2
+
+
+### Adding custom sending program script to Load balancer
+Note:   If we are using default send program, then we need to bind AS to both virtual ip as well as 
+	real ip, which is not possible in JBOSS AS7. Another option is to bind it to 0.0.0.0 which 
+	works fine, but not suggested. To over come this problem we can write a custom sending 
+	program script which will over write the default send program and include the executable 
+	file name along with path.
+
+	1>In Piranha monitoring scripts add "/root/customLBSendingScript.sh %h 192.168.2.220" to sending program.
+	2>Change Expect to "Success" as the script return Success as output.
+	3>Service pulse restart
+	
+	Script "customLBSendingScript.sh" Contents:
+	------------------------
+		if ssh appuser@$1 curl --silent http://$2:8080/cluster-demo/ | grep "<html>" > tmp.txt
+		then	
+			result=Success
+		else
+			result=Failure
+		fi	
+		echo $result	
+
