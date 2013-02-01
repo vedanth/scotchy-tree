@@ -1,0 +1,75 @@
+Assumptions:
+192.168.2.210 -- Master
+192.168.2.211 -- Slave
+
+Configurations in Master:
+------------------------------------------
+# vi /var/lib/pgsql/9.1/data/pg_hba.conf
+# sudo mkdir /var/lib/pgsql/9.1/wals/
+# sudo chown postgres /var/lib/pgsql/9.1/wals/
+
+#su - postgres
+#ssh-keygen -b 2048
+#ssh-copy-id -i ~/.ssh/id_rsa.pub root@192.168.2.211
+
+# vi /var/lib/pgsql/9.1/data/postgresql.conf
+#wal_level = hot_standby
+#wal_keep_segments = 32
+#archive_mode = on
+#archive_command = 'rsync -a %p root@192.168.2.211:/var/lib/pgsql/9.1/wals/%f </dev/null'
+#max_wal_senders = 10
+#max_wal_senders = 2
+
+# su - postgres
+#psql -c "SELECT pg_switch_xlog()";
+#psql -c "CREATE USER replicator WITH SUPERUSER ENCRYPTED PASSWORD 'secretpassword12345'";
+
+#exit
+
+#/etc/init.d/postgresql restart
+
+#su - postgres
+#psql -c "SELECT pg_start_backup('backup', true)"
+#rsync -av --exclude postmaster.pid --exclude pg_xlog /var/lib/pgsql/9.1/data/ root@192.168.2.211:/var/lib/pgsql/9.1/data/
+#psql -c "SELECT pg_stop_backup()"
+
+Configurations in Slave:
+------------------------------------------
+# vi /var/lib/pgsql/9.1/data/postgresql.conf
+#wal_level = hot_standby
+#hot_standby = on
+
+# vi /var/lib/pgsql/9.1/data/recovery.conf
+standby_mode = 'on'
+primary_conninfo = 'host=192.168.2.210 port=5432 user=replicator password=secretpassword1234'
+trigger_file = '/tmp/pgsql.trigger'
+restore_command = 'cp -f /var/lib/pgsql/9.1/wals/%f %p </dev/null'
+archive_cleanup_command = 'pg_archivecleanup /var/lib/pgsql/9.1/wals/ %r'
+
+# vi /var/lib/pgsql/9.1/data/pg_hba.conf
+host    replication      all            192.168.2.211/24         trust
+host    replication      all            192.168.2.210/24         trust
+
+#/etc/init.d/postgresql restart
+
+#cd /var/lib/pgsql/9.1/data/pg_log
+<!--check for "LOG:  streaming replication successfully connected to primary" line-->
+
+#master$ ps -ef | grep sender
+#slave$ ps -ef | grep receiver
+
+******************* DONE ***************************
+
+
+Once the Master goes down:
+---------------------------------------------
+
+On the slave execute the following: 
+#service postgresql-9.1 stop
+Set the standby_mode = off in recovery.conf file. 
+Also create the trigger_file in the location specified in the standby server recovery.conf file. 
+#service postgresql-9.1 start
+
+The recovery.conf file will be automatically renamed to recovery.done 
+once successful recovery has taken place thus making this instance not a standby.
+
