@@ -5,8 +5,10 @@ Assumptions:
 Configurations in Master:
 ------------------------------------------
 # vi /var/lib/pgsql/9.1/data/pg_hba.conf
-# sudo mkdir /var/lib/pgsql/9.1/wals/
-# sudo chown postgres /var/lib/pgsql/9.1/wals/
+host   replication      all             192.168.2.211/32              trust
+
+# mkdir /var/lib/pgsql/9.1/wals/
+# chown postgres /var/lib/pgsql/9.1/wals/
 
 #su - postgres
 #ssh-keygen -b 2048
@@ -18,7 +20,6 @@ Configurations in Master:
 #archive_mode = on
 #archive_command = 'rsync -a %p root@192.168.2.211:/var/lib/pgsql/9.1/wals/%f </dev/null'
 #max_wal_senders = 10
-#max_wal_senders = 2
 
 # su - postgres
 #psql -c "SELECT pg_switch_xlog()";
