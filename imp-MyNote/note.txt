@@ -72,3 +72,6 @@ Note:   If we are using default send program, then we need to bind AS to both vi
 		fi	
 		echo $result	
 
+### Jmeter command line (-n -t)
+ Inside jmx use ==> ${__P(<variable name>[,<default value>])}
+ In cmd line while running using -n -t use ==> -Jusers=4 -Jduration=300
