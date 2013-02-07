@@ -1,0 +1,13 @@
+### Get the list of options/commands for a subsystem using CLI
+ [subsystem/resource] --help --commands
+	ex: jms-queue --help --commands
+
+### Add Queue from CLI
+     jms-queue add --entries=queues/OrdersQ --queue-address=OrdersQ
+
+### Pause and Resume Queue from CLI
+     jms-queue pause --queue-address=OrdersQ
+     jms-queue resume --queue-address=OrdersQ
+
+
+
