@@ -75,3 +75,16 @@ Note:   If we are using default send program, then we need to bind AS to both vi
 ### Jmeter command line (-n -t)
  Inside jmx use ==> ${__P(<variable name>[,<default value>])}
  In cmd line while running using -n -t use ==> -Jusers=4 -Jduration=300
+
+
+
+ ### INstall pidstat 
+ rpm -e sysstat # uninstall the sysstat rpm bundle (iff installed)
+yum -y install kernel-devel gettext
+cd /tmp
+wget http://pagesperso-orange.fr/sebastien.godard/sysstat-9.0.6.tar.gz
+tar xvfz sysstat-9.0.6.tar.gz
+cd sysstat-9.0.6
+./configure
+make
+make install
