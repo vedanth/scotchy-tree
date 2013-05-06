@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <module-name>activiti-rest</module-name>
+  <display-name>Process Engine Initializer</display-name>
+  
+   <listener>
+    <listener-class>com.enhancesys.workflow.engine.listener.ProcessEngineListener</listener-class>
+  </listener>
+  
+  <!-- Restlet adapter -->  
+  <servlet>  
+    <servlet-name>RestletServlet</servlet-name>  
+    <servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
+    <init-param>
+      <!-- Application class name -->
+      <param-name>org.restlet.application</param-name>
+      <param-value>org.activiti.rest.application.ActivitiRestApplication</param-value>
+    </init-param>
+  </servlet>
+  
+ 
+
+  <!-- Catch all requests -->  
+  <servlet-mapping>  
+    <servlet-name>RestletServlet</servlet-name>  
+    <url-pattern>/service/*</url-pattern>  
+  </servlet-mapping>  
+  
+  <servlet>
+<servlet-name>RestletServletTemp</servlet-name>
+<servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
+ <init-param> 
+ 	   <param-name>org.restlet.application</param-name>
+      <param-value>com.enhancesys.workflow.engine.rest.application.RestletApplication</param-value>
+    </init-param>
+</servlet>
+
+<servlet-mapping>
+<servlet-name>RestletServletTemp</servlet-name>
+<url-pattern>/services/*</url-pattern>
+</servlet-mapping>
+  
+<servlet>
+        <servlet-name>javax.ws.rs.core.Application</servlet-name>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>javax.ws.rs.core.Application</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+    
+</web-app>
